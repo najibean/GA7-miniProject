@@ -1,2 +1,1 @@
-Hanya sebagai file inisiasi awal agar bisa di push folder nya
-silahkan dihapus...
+Mas Bastian, nanti buat aja repo satu lagi "bastian_draft" seperti aku gitu ya..
