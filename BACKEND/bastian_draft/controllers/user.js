@@ -50,12 +50,20 @@ class UserController {
     }
 
     static async register(req, res) {
-        const { username, password, name, email, image, role } = req.body;
-
+        const { username, password, name, email, role } = req.body;
+        
+        if(req.file) {
+            req.body.image = '/' + req.file.destination + req.file.filename
+        }
         try {
             // const pwdEncrypt = encryptPwd(password);
             const user = await User.create({
-                username, password, name, email, image, role
+                username, 
+                password, 
+                name, 
+                email, 
+                image : req.body.image,
+                role,
             })
             res.status(201).json(user)
             // console.log(pwdEncrypt);

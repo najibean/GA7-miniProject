@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Movie);
+      User.belongsToMany(models.Movie, {through:'models.Review'});
     }
   };
   User.init({
@@ -49,14 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    image: {
-      type : DataTypes.STRING,
-      validate : {
-        isUrl : {
-          msg : "Profile picture must be URL format thanks."
-        }
-      }
-    },
+    image: DataTypes.STRING,
     role: {
       type : DataTypes.STRING,
       validate : {
