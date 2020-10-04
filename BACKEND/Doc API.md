@@ -39,6 +39,7 @@ req:
 }
 
 res:
+200 ---> <access_token>
 400 ---> "Password is not the same."
 404 ---> "User is not found."
 500 ---> <err>
@@ -59,7 +60,6 @@ req:
    "password" : "<password>"
    "name" : "<name>"
    "image" : "<image yang di upload>"
-   "role" : "<role>"
 }
 
 res:
@@ -112,14 +112,12 @@ res:
 
 
 ### GROUP: delete user's profie
-http://localhost:3000/users/editprofile/:id
+http://localhost:3000/users/delete/:id
 [1] - menampilkan profile dari user
 
 req:
 {
    "id" : "<id>"
-   "name" : "<name>"
-   "image" : "<image>"
 }
 
 res:
