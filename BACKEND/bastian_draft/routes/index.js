@@ -9,6 +9,6 @@ router.get('/', (req,res)=>{
     })
 });
 router.use('/users', userRoutes)
-// router.use('/products', productRoutes)
+// router.use('/movies', movieRoutes)
 
 module.exports = router;

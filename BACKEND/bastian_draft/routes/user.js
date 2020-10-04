@@ -20,6 +20,10 @@ const upload = multer({
 router.get('/', UserController.list)
 router.post('/login', UserController.login)
 router.post('/register', upload.single('image'), UserController.register)
+router.get('/profile/:id', UserController.profile)
+router.put('/editprofile/:id', upload.single('image'), UserController.editUser)
+router.delete('/delete/:id', UserController.deleteUser)
+
 
 // router.get('/login', (req, res)=>{
 //     res.status(200).json({

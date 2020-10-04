@@ -31,11 +31,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    genre: {
+    genre: DataTypes.ARRAY(DataTypes.INTEGER),
+    poster: {
       type : DataTypes.STRING,
       validate : {
         notEmpty : {
-          msg : "Movie genre must be filled ."
+          msg : "Movie poster must be filled ."
+        },
+        isUrl : {
+          msg : "Movie poster must be URL format thanks."
         }
       }
     },
@@ -50,14 +54,28 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    poster: {
+    rated: {
       type : DataTypes.STRING,
       validate : {
         notEmpty : {
-          msg : "Movie poster must be filled ."
-        },
-        isUrl : {
-          msg : "Movie poster must be URL format thanks."
+          msg : "Movie title must be filled ."
+        }
+      }
+    },
+    voteCount: DataTypes.INTEGER,
+    releaseDate: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie title must be filled ."
+        }
+      }
+    },
+    language: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie title must be filled ."
         }
       }
     }

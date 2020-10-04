@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
           msg : "Rating must be filled thanks."
         },
         isNumeric : {
-          msg : "Rating must be a number from 0 to 100."
+          msg : "Rating must be a number from 0 to 10."
         }
       }
     },
