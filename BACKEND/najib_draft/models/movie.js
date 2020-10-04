@@ -11,15 +11,74 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Movie.belongsToMany(models.User, { through: 'models.Junction'});
+      Movie.belongsToMany(models.User, {through:'models.Review'});
     }
   };
   Movie.init({
-    title: DataTypes.STRING,
-    synopsis: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    trailer: DataTypes.STRING,
-    poster: DataTypes.STRING
+    title: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie title must be filled ."
+        }
+      }
+    },
+    synopsis: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie synopsis must be filled ."
+        }
+      }
+    },
+    genre: DataTypes.ARRAY(DataTypes.INTEGER),
+    poster: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie poster must be filled ."
+        },
+        isUrl : {
+          msg : "Movie poster must be URL format thanks."
+        }
+      }
+    },
+    trailer:{
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie trailer must be filled ."
+        },
+        isUrl : {
+          msg : "Movie trailer must be URL format thanks."
+        }
+      }
+    },
+    rated: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie title must be filled ."
+        }
+      }
+    },
+    voteCount: DataTypes.INTEGER,
+    releaseDate: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie title must be filled ."
+        }
+      }
+    },
+    language: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : "Movie title must be filled ."
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Movie',

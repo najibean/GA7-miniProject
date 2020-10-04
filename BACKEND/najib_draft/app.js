@@ -1,18 +1,19 @@
 const express = require('express');
 const app = express();
-require('dotenv').config(); //penulisan untuk dotenv
+require('dotenv').config()
 
-const PORT = process.env.PORT || 3000; //penulisan untuk .env file
+const PORT = process.env.PORT || 3000;
 
-const router = require('./routes/index');
+const router = require('./routes')
 
-// Middlewares
+//Middlewares
 // app.set('view engine', 'ejs');
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false}));
 
-app.use(router);  // mengambil dari ./routes/index.js
+//Routes
+app.use(router);
 
 app.listen(PORT, () => {
-   console.log('app.js is running at port : ' + PORT);
+    console.log(`Server is running at port : ${PORT}`);
 })
