@@ -1,6 +1,7 @@
 # API Documentation Team C
 
 ## Standard Status Response
+```
 200 - OK                      ---> Call API success
 201 - CREATED                 ---> Post success
 400 - BAD REQUEST             ---> Error on client side
@@ -9,28 +10,35 @@
 404 - NOT FOUND               ---> Request endpoint not found
 500 - INTERNAL SERVER ERROR   ---> Error on server side
 502 - BAD GATEWAY             ---> Invalid response from another request
-
-
-FORMAT:
-{root.api}/{version}/{grouping}/{endpoint}
-
-CONTOH:
-http://localhost:3000/v1/users/
-
+```
 ==============================================================
 
 
-### GROUP: Home Page
+## Home Page
+```
 http://localhost:3000/
-[1] - menampilkan preview movie hingga 10 movie per-halaman
-[2] - _silahkan ditambahkan accessories lainnya_
 
+```
 ==============================================================
 
 
-### GROUP: user's login
+## GROUP: user
+
+**list user**
+```
+http://localhost:3000/users/
+
+req:
+
+res:
+200 ---> <data users>
+500 ---> <err>
+```
+
+
+**login user**
+```
 http://localhost:3000/users/login
-[1] - menampilkan form login user
 
 req:
 {
@@ -43,16 +51,12 @@ res:
 400 ---> "Password is not the same."
 404 ---> "User is not found."
 500 ---> <err>
-
-[2] - menampilkan pilihan untuk masuk ke halaman register
-[3] - _silahkan ditambahkan accessories lainnya_
-
-==============================================================
+```
 
 
-### GROUP: user's register
+**register user**
+```
 http://localhost:3000/users/register
-[1] - menampilkan form register user
 
 req:
 {
@@ -65,16 +69,12 @@ req:
 res:
 201 ---> <data>
 500 ---> <err>
-
-[2] - jika sudah berhasil register, kembali ke halaman login
-[3] - _silahkan ditambahkan accessories lainnya_
-
-==============================================================
+```
 
 
-### GROUP: user's profie
+**profile user**
+```
 http://localhost:3000/users/profile/:id
-[1] - menampilkan profile dari user
 
 req:
 {
@@ -85,15 +85,12 @@ res:
 200 ---> <data>
 404 ---> "User not found."
 500 ---> <err>
-
-[2] - _silahkan ditambahkan accessories lainnya_
-
-==============================================================
+```
 
 
-### GROUP: edit user's profie
+**edit profile-user**
+```
 http://localhost:3000/users/editprofile/:id
-[1] - menampilkan profile dari user
 
 req:
 {
@@ -105,15 +102,12 @@ req:
 res:
 203 ---> <data>
 500 ---> <err>
-
-[2] - _silahkan ditambahkan accessories lainnya_
-
-==============================================================
+```
 
 
-### GROUP: delete user's profie
+**delete user**
+```
 http://localhost:3000/users/delete/:id
-[1] - menampilkan profile dari user
 
 req:
 {
@@ -123,7 +117,86 @@ req:
 res:
 202 ---> <data>
 500 ---> <err>
+```
 
-[2] - _silahkan ditambahkan accessories lainnya_
+==============================================================
+
+
+## GROUP: movie
+
+**list movie**
+```
+http://localhost:3000/movies/
+
+req:
+{
+   "id" : "<id>"
+}
+
+res:
+200 ---> <data>
+500 ---> <err>
+```
+
+
+**detail movie**
+```
+http://localhost:3000/movies/details/:id
+
+req:
+{
+   "id" : "<id>"
+}
+
+res:
+200 ---> <data>
+404 ---> <"User not Found">
+500 ---> <err>
+```
+
+
+**add movie**
+```
+http://localhost:3000/movies/add
+
+req:
+{
+   "id" : "<id>"
+}
+
+res:
+200 ---> <"Movie deleted">
+500 ---> <err>
+```
+
+
+**delete movie**
+```
+http://localhost:3000/movies/delete/:id
+
+req:
+{
+   "id" : "<id>"
+}
+
+res:
+200 ---> <"Movie deleted">
+500 ---> <err>
+```
+
+
+**edit movie**
+```
+http://localhost:3000/movies/edit/:id
+
+req:
+{
+   "id" : "<id>"
+}
+
+res:
+200 ---> <"This Movie Updated">
+500 ---> <err>
+```
 
 ==============================================================
