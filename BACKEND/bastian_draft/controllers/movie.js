@@ -1,21 +1,50 @@
-const { Movie } = require('../models');
+const { Movie, User, Review } = require('../models');
+const Sequelize = require('sequelize');
+const { Op } = require('sequelize')
+const { paginate } = require('../helpers/paginate');
 
 class MovieController {
-    static async getMovie(req,res,next) {
+    static async getMovie(req, res) {
+        const page = Number(req.params.page);
+        const limit = 10;
         try {
-            const result = await Movie.findAll({
+            const movies = await Movie.findAll({
                 order: [
                     ['id', 'ASC']
                 ]
-            })
+            });
+            const result = paginate(page, limit, movies);
+
             res.status(200).json(result);
-        }
-        catch (err) {
-            next();
+        } catch (err) {
+            res.status(500).json(err);
         }
     }
 
-    static async addMovie(req, res,next) {
+
+    static async movieDetails (req, res) {
+        const id = req.params.id
+        try {
+            const found = await Movie.findOne({
+                where : {
+                    id
+                }, 
+                include : [
+                    Review
+                ]
+            })
+            if (found) {
+                res.status(200).json(found)
+            }else{
+            res.status(404).json(
+                { msg : "User not Found" }
+            )}
+        }catch (err){
+            res.status(500).json(err);
+        }
+    }
+
+    static async addMovie(req, res) {
         const { title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language } = req.body;
         try {
             const found = await Movie.findOne({
@@ -23,12 +52,12 @@ class MovieController {
                     title
                 }
             })
+            // console.log(found)
             if (found) {
                 res.status(409).json({
                     msg : "This Movie already exists"
                 })
-            }
-            else {
+            } else {
                 const movie = await Movie.create({
                     title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language
                 })
@@ -36,18 +65,18 @@ class MovieController {
             }
         }
         catch(err) {
-            next();
+            res.status(500).json(err);
         }
     }
     
     static async deleteMovie(req, res,next) {
         const id = req.params.id;
         try {
-            const deletedMovie = await Movie.destroy({
+            const result = await Movie.destroy({
                 where: { id }
             })
             res.status(200).json({
-                deletedMovie,
+                result,
                 msg: "Movie deleted"
             })
         }
@@ -58,7 +87,7 @@ class MovieController {
     
     static async editMovie(req,res,next) {
         const id = req.params.id;
-        const { title, synopsis, genre, trailer, poster } = req.body;
+        const { title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language } = req.body;
         try{
             const update = await Movie.update({ title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language },
                 { where : { id }
@@ -72,41 +101,36 @@ class MovieController {
         }
     }
 
-    // static async movieSearch(req, res) {
-    //     let lookupValue = request.body.query.toLowerCase();
-
-    //     Movie.findAll({
-    //         limit: 10,
-    //         where: {
-    //         title: sequelize.where(sequelize.fn('LOWER', sequelize.col('title')), 
-    //         'LIKE', 
-    //         '%' + lookupValue + '%')
-    //             }
-    //     }).then(function(title){
-    //         return response.json({
-    //             msg: 'message',
-    //             assets: assets
-    //         });
-    //     }).catch(function(error){
-    //         console.log(error);
-    //         });
-    //     }
-
-    static async movieSearch(req,res,next) {
-        let lookupValue = req.body.query.toLowerCase();
+    static async searchMovie(req, res){
+        const { title } = req.body;
         try {
-            const result = await Movie.findAll({
-                limit: 10,
+            const found = await Movie.findOne({
                 where: {
-                title: sequelize.where(sequelize.fn('LOWER', sequelize.col('title')), 
-                'LIKE', 
-                '%' + lookupValue + '%')
+                    title: {
+                        [Op.iLike]: '%' + title + '%'
                     }
-                })
-                res.status(200).json(result);
-            } catch (err) {
-                next();
+                }
+            });
+            if (!found) {
+                res.status(404).json(`'${title}' not found!`)
+            } else {
+                const movies = await Movie.findAll({
+                    where: {
+                        title: {
+                            [Op.iLike]: '%' + title + '%'
+                        }
+                    }
+                });
+                res.status(200).json(movies);
             }
+        } catch (err) {
+            res.status(500).json(err);
         }
+    }
+
+
 }
 module.exports = MovieController;
+
+
+// title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language

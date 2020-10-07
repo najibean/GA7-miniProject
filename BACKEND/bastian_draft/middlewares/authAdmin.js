@@ -23,12 +23,12 @@ const authentication = (req, res, next) => {
 };
 
 const authorization = (req, res, next) => {
-  let { role } = req.userData;
-
-  if (role === "Admin") {
-    next();
+  const role = req.userData.role;
+  console.log(role)
+  if (role == 'Admin') {
+      next();
   } else {
-    res.status(400).json("Only Admin Allowed!");
+      res.status(403).json("Access denied!");
   }
 };
 

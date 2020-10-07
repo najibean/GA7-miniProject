@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Movie.belongsToMany(models.User, {through:'models.Review'});
+      Movie.hasMany(models.Review);
     }
   };
   Movie.init({
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    genre: DataTypes.ARRAY(DataTypes.INTEGER),
+    genre: DataTypes.INTEGER,
     poster: {
       type : DataTypes.STRING,
       validate : {

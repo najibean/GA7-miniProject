@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Review } = require('../models')
 const {decryptPwd} = require('../helpers/bcrypt')
 const {tokenGenerator} = require('../helpers/jwt')
 
@@ -9,25 +9,6 @@ class UserController {
 
             res.status(200).json(users);
         } catch (err) {
-            res.status(500).json(err);
-        }
-    }
-
-    static async profile (req, res) {
-        const id = req.params.id
-        try {
-            const found = await User.findOne({
-                where : {
-                    id
-                }
-            })
-            if (found) {
-                res.status(200).json(found)
-            }else{
-            res.status(404).json(
-                { msg : "User not Found" }
-            )}
-        }catch (err){
             res.status(500).json(err);
         }
     }
@@ -69,24 +50,56 @@ class UserController {
 
     static async register(req, res) {
         const { username, password, name, role } = req.body;
-        
-        if(req.file) {
-            req.body.image = '/' + req.file.destination + req.file.filename
-        }
         try {
-            // const pwdEncrypt = encryptPwd(password);
-            const user = await User.create({
-                username, 
-                password, 
-                name,  
-                image : req.body.image,
-                role,
-            })
-            res.status(201).json(user)
-            // console.log(pwdEncrypt);
-
+            const check = await User.findOne({
+                where: { username }
+            });
+            if (check) {
+                res.status(409).json("Email already registered!");
+            } else {
+                if(req.file) {
+                    req.body.image = '/' + req.file.destination + req.file.filename
+                } try {
+                const user = await User.create({
+                    username, 
+                    password, 
+                    name,  
+                    image : req.body.image,
+                    role,
+                    })
+                    // res.status(201).json(user)
+                    const access_token = tokenGenerator(user)
+                    res.status(201).json({ access_token });
+                } catch (err) {
+                    res.status(500).json(err)
+                }
+            }
         } catch (err) {
             res.status(500).json(err)
+        }
+    }
+    
+
+
+    static async profile (req, res) {
+        const id = req.params.id
+        try {
+            const found = await User.findOne({
+                where : {
+                    id
+                },
+                // include : [
+                //     Review
+                // ]
+            })
+            if (found) {
+                res.status(200).json(found)
+            }else{
+            res.status(404).json(
+                { msg : "User not Found" }
+            )}
+        }catch (err){
+            res.status(500).json(err);
         }
     }
 
@@ -119,16 +132,9 @@ class UserController {
             res.status(500).json(err);
         }
     }
-
-    static async logout(req, res, next) {
-        const exit = req.user.deleteToken(req.token,(err,user)=>{
-            if(err) 
-            return res.status(400).send(err);
-                res.sendStatus(200);
-               });
-            }
-
-
 }
 
 module.exports = UserController;
+
+// username, password, name, role
+// image : req.body.image

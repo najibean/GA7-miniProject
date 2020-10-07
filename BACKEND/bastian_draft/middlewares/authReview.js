@@ -32,8 +32,9 @@ const authorization = (req,res,next) => {
             id
         }
     }).then(review=>{
+        console.log(review)
         if(review){
-            if(review.userId === UserId){
+            if(review.UserId === UserId){
                 // res.status(200).json(review)
                 next();
             }else{

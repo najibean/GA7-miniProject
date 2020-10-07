@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       genre: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
+        type: Sequelize.INTEGER
       },
       poster: {
         type: Sequelize.STRING
