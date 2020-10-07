@@ -16,6 +16,7 @@
 
 ## Home Page
 ```
+.GET
 http://localhost:3000/
 
 ```
@@ -26,6 +27,7 @@ http://localhost:3000/
 
 **list user**
 ```
+.GET
 http://localhost:3000/users/
 
 req:
@@ -38,6 +40,7 @@ res:
 
 **login user**
 ```
+.POST
 http://localhost:3000/users/login
 
 req:
@@ -56,6 +59,7 @@ res:
 
 **register user**
 ```
+.POST
 http://localhost:3000/users/register
 
 req:
@@ -68,12 +72,14 @@ req:
 
 res:
 201 ---> <data>
+409 ---> <"Email already registered!">
 500 ---> <err>
 ```
 
 
 **profile user**
 ```
+.GET
 http://localhost:3000/users/profile/:id
 
 req:
@@ -90,6 +96,7 @@ res:
 
 **edit profile-user**
 ```
+.PUT
 http://localhost:3000/users/editprofile/:id
 
 req:
@@ -107,6 +114,7 @@ res:
 
 **delete user**
 ```
+.DELETE
 http://localhost:3000/users/delete/:id
 
 req:
@@ -124,9 +132,10 @@ res:
 
 ## GROUP: movie
 
-**list movie**
+**list movies**
 ```
-http://localhost:3000/movies/
+.GET
+http://localhost:3000/movies/:page
 
 req:
 {
@@ -139,8 +148,26 @@ res:
 ```
 
 
+**search movies**
+```
+.POST
+http://localhost:3000/movies/search
+
+req:
+{
+   "title" : "<title>"
+}
+
+res:
+200 ---> <data>
+404 ---> <"title not found!">
+500 ---> <err>
+```
+
+
 **detail movie**
 ```
+.GET
 http://localhost:3000/movies/details/:id
 
 req:
@@ -150,28 +177,38 @@ req:
 
 res:
 200 ---> <data>
-404 ---> <"User not Found">
+404 ---> <"Movie not Found">
 500 ---> <err>
 ```
 
 
 **add movie**
 ```
+.POST
 http://localhost:3000/movies/add
 
 req:
 {
-   "id" : "<id>"
+   "title" : "<title>"
+   "synopsis" : "<synopsis>"
+   "genre" : "<genre>"
+   "poster" : "<poster>"
+   "trailer" : "<trailer>"
+   "rated" : "<rated>"
+   "vouteCount" : "<vouteCount>"
+   "releaseDate" : "<releaseDate>"
+   "language" : "<language>"
 }
 
 res:
-200 ---> <"Movie deleted">
+201 ---> <movie>
 500 ---> <err>
 ```
 
 
 **delete movie**
 ```
+.DELETE
 http://localhost:3000/movies/delete/:id
 
 req:
@@ -187,7 +224,36 @@ res:
 
 **edit movie**
 ```
+.PUT
 http://localhost:3000/movies/edit/:id
+
+req:
+{
+   "title" : "<title>"
+   "synopsis" : "<synopsis>"
+   "genre" : "<genre>"
+   "poster" : "<poster>"
+   "trailer" : "<trailer>"
+   "rated" : "<rated>"
+   "vouteCount" : "<vouteCount>"
+   "releaseDate" : "<releaseDate>"
+   "language" : "<language>"
+}
+
+res:
+200 ---> <"This Movie Updated">
+500 ---> <err>
+```
+
+==============================================================
+
+
+## GROUP: review
+
+**review**
+```
+.GET
+http://localhost:3000/review/
 
 req:
 {
@@ -195,7 +261,60 @@ req:
 }
 
 res:
-200 ---> <"This Movie Updated">
+200 ---> <data>
+500 ---> <err>
+```
+
+
+**add review**
+```
+.POST
+http://localhost:3000/review/movie/:id
+
+req:
+{
+   "rating" : "<rating>"
+   "comment" : "<comment>"
+}
+
+res:
+201 ---> <data>
+409 ---> <"Can't review this movie again!">
+500 ---> <err>
+```
+
+
+**delete review**
+```
+.DELETE
+http://localhost:3000/review/movie/:id
+
+req:
+{
+   "id" : "<id>"
+}
+
+res:
+200 ---> <"Review deleted">
+500 ---> <err>
+```
+
+**edit review**
+```
+.PUT
+http://localhost:3000/review/movie/:id
+
+req:
+{
+   "userId" : "<userId>"
+   "MovieId" : "<MovieId>"
+   "rating" : "<rating>"
+   "comment" : "<comment>"
+}
+
+res:
+200 ---> <"Update done!">
+200 ---> <"Update not done!"> (jika update belum diterima)
 500 ---> <err>
 ```
 
