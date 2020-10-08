@@ -34,9 +34,6 @@ class UserController {
                     }    
                 }
             }else{
-                // res.status(404).json({
-                //     msg : "User is not found."
-                // })
                 throw {
                     status : 404,
                     msg : "User is not found."
@@ -122,7 +119,6 @@ class UserController {
 
     static async deleteUser(req, res) {
         const id = req.params.id
-
         try {
             const result = await User.destroy({
                 where: { id }
@@ -136,5 +132,3 @@ class UserController {
 
 module.exports = UserController;
 
-// username, password, name, role
-// image : req.body.image

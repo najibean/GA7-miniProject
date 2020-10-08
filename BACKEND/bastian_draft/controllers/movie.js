@@ -44,6 +44,20 @@ class MovieController {
         }
     }
 
+    static async findByGenre(req, res) {
+        const { genre } = req.params;
+        try {
+            const found = await Movie.findAll({
+                where: {
+                    genre
+                }
+            });
+            res.status(200).json(found);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
+
     static async addMovie(req, res) {
         const { title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language } = req.body;
         try {
@@ -69,7 +83,7 @@ class MovieController {
         }
     }
     
-    static async deleteMovie(req, res,next) {
+    static async deleteMovie(req, res) {
         const id = req.params.id;
         try {
             const result = await Movie.destroy({
@@ -81,11 +95,11 @@ class MovieController {
             })
         }
         catch(err) {
-            next();
+            res.status(500).json(err);
         }
     }
     
-    static async editMovie(req,res,next) {
+    static async editMovie(req,res) {
         const id = req.params.id;
         const { title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language } = req.body;
         try{
@@ -97,7 +111,7 @@ class MovieController {
             msg : "This Movie Updated"
         })
     } catch(err){
-        next();
+        res.status(500).json(err);
         }
     }
 
@@ -131,6 +145,3 @@ class MovieController {
 
 }
 module.exports = MovieController;
-
-
-// title, synopsis, genre, poster, trailer, rated, voteCount, releaseDate, language
