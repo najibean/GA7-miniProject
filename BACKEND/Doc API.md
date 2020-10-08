@@ -135,7 +135,7 @@ res:
 **list movies**
 ```
 .GET
-http://localhost:3000/movies/:page
+http://localhost:3000/movies/list
 
 req:
 {
