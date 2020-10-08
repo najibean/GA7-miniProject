@@ -21,8 +21,8 @@ class ReviewController {
         // res.render('addReview.ejs');
     }
 
-    static async listReviewByUser(req, res) {
-        const UserId = req.userData.id;
+    static async reviewByUser(req, res) {
+        const UserId = req.params.UserId;
         try {
             const user = await User.findOne({
                 where: { id: UserId },
@@ -48,7 +48,7 @@ class ReviewController {
         }
     }
 
-    static async listReviewByMovie(req, res) {
+    static async reviewByMovie(req, res) {
         const MovieId = req.params.MovieId
         const page = req.params.page;
         const limit = 10;

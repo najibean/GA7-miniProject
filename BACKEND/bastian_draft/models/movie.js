@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : {
         notEmpty : {
-          msg : "Movie title must be filled ."
+          msg : "Movie rate must be filled ."
         }
       }
     },
@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : {
         notEmpty : {
-          msg : "Movie title must be filled ."
+          msg : "Release date must be filled ."
         }
       }
     },
@@ -76,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : {
         notEmpty : {
-          msg : "Movie title must be filled ."
+          msg : "Movie language must be filled ."
         }
       }
     }
